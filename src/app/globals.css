@@ -1,33 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-bg-primary: #f9faff;
+    --color-bg-secondary: #ffffff;
+
+    --color-text-primary: #212121;
+    --color-text-secondary: #626264;
+    --color-text-light: #fbfbfb;
+    --color-text-disabled: var(--color-disabled);
+
+    --color-disabled: #878d99;
+
+    --color-btn-primary: #212121;
+    --color-btn-secondary: var(--color-red);
+
+    --color-red: #dd2355;
+    --color-yellow: #fed700;
+    --color-green: #008d24;
+    --color-gray: #878d99;
+    --color-purple-200: #e6e6fe;
+    --color-purple-700: #7f83ff;
+
+    --font-lato: 'Lato', system-ui, sans-serif;
+    --font-bruno: 'Bruno Ace', system-ui, sans-serif;
+
+    font: 400 1rem/1.5 var(--font-lato, system-ui);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  h1 {
+    font: 400 2rem/1.2 var(--font-bruno, system-ui);
+  }
+
+  h2 {
+    font: 400 1.5rem/1.1 var(--font-bruno, system-ui);
+  }
+
+  h3 {
+    font: 400 1.25rem/1.2 var(--font-bruno, system-ui);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-red);
   }
 }
