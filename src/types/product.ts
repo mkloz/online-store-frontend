@@ -50,5 +50,3 @@ export interface IProductFilterOptions {
   page: number;
   limit: number;
 }
-
-export interface IProductSortOptions {}
