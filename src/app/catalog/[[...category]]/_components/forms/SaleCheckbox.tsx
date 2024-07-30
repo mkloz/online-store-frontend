@@ -6,8 +6,8 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "../../../../components/ui/form";
-import { Checkbox } from "../../../../components/ui/checkbox";
+} from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function SaleCheckbox() {
   const form = useFormContext();

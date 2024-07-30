@@ -1,25 +1,24 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { Slider } from "../../../../components/ui/slider";
-import React, { memo } from "react";
+import { Slider } from "@/components/ui/slider";
+import React from "react";
+import { ProductFilterFormValues } from "../../_hooks/useProductFilterForm";
 
 interface PriceRangeInputProps {
   minPrice: number;
   maxPrice: number;
-  minName: string;
-  maxName: string;
   step?: number;
 }
 function PriceSlider(props: PriceRangeInputProps) {
-  const form = useFormContext();
+  const form = useFormContext<ProductFilterFormValues>();
   const [min, setMin] = [
-    form.watch(props.minName),
-    (min: string) => form.setValue(props.minName, min),
+    form.watch("minPrice"),
+    (min: number) => form.setValue("minPrice", min),
   ];
   const [max, setMax] = [
-    form.watch(props.maxName),
-    (max: string) => form.setValue(props.maxName, max),
+    form.watch("maxPrice"),
+    (max: number) => form.setValue("maxPrice", max),
   ];
 
   return (
@@ -30,17 +29,22 @@ function PriceSlider(props: PriceRangeInputProps) {
       max={props.maxPrice}
       step={props.step || (props.maxPrice - props.minPrice) / 200}
       onValueChange={(value) => {
-        setMin(value[0] + "");
-        setMax(value[1] + "");
+        setMin(value[0]);
+        setMax(value[1]);
       }}
     />
   );
 }
 export default function PriceRangeInput(props: PriceRangeInputProps) {
-  const form = useFormContext();
-  console.log("PriceRangeInput");
+  const form = useFormContext<ProductFilterFormValues>();
 
-  const NumberInput = ({ name, value }: { name: string; value: number }) => (
+  const NumberInput = ({
+    name,
+    value,
+  }: {
+    name: keyof ProductFilterFormValues;
+    value: number;
+  }) => (
     <input
       type="number"
       min={props.minPrice}
@@ -65,11 +69,11 @@ export default function PriceRangeInput(props: PriceRangeInputProps) {
       }}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          form.setValue(name, e.currentTarget.value);
+          form.setValue(name, +e.currentTarget.value);
         }
       }}
       onBlur={(e) => {
-        form.setValue(name, e.currentTarget.value);
+        form.setValue(name, +e.currentTarget.value);
       }}
     />
   );
@@ -78,9 +82,9 @@ export default function PriceRangeInput(props: PriceRangeInputProps) {
       <PriceSlider {...props} />
       <div className="flex items-center gap-4">
         <p className="text-xl">{"$"}</p>
-        <NumberInput name={props.minName} value={form.watch(props.minName)} />
+        <NumberInput name={"minPrice"} value={form.watch("minPrice")} />
         {" — "}
-        <NumberInput name={props.maxName} value={form.watch(props.maxName)} />
+        <NumberInput name={"maxPrice"} value={form.watch("maxPrice")} />
       </div>
     </div>
   );

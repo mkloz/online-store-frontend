@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FacebookIcon, InstagramIcon, LinkedInIcon, LogoIcon } from "../icons";
+import { LINKS } from "../../utils/links";
 
 const FAQ_LINKS = [
   { href: "/faq", label: "Help Center" },
@@ -10,13 +11,13 @@ const FAQ_LINKS = [
 ];
 
 const SITEMAP_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/bicycles", label: "Bicycles" },
-  { href: "/skateboards", label: "Skateboards" },
-  { href: "/scooters", label: "Scooters" },
-  { href: "/gyroboards", label: "Gyroboards" },
-  { href: "/monowheels", label: "Monowheels" },
-  { href: "/accessories", label: "Accessories" },
+  { href: LINKS.HOME, label: "Home" },
+  { href: LINKS.CATALOG_BICYCLE, label: "Bicycles" },
+  { href: LINKS.CATALOG_SKATEBOARD, label: "Skateboards" },
+  { href: LINKS.CATALOG_SCOOTER, label: "Scooters" },
+  { href: LINKS.CATALOG_GYROBOARD, label: "Gyroboards" },
+  { href: LINKS.CATALOG_MONOWHEEL, label: "Monowheels" },
+  { href: LINKS.CATALOG_ACCESSORY, label: "Accessories" },
 ];
 
 const SOCIAL_LINKS = [

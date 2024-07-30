@@ -6,9 +6,13 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../../../../components/ui/accordion";
-import { MAX_PRICE, MIN_PRICE } from "../../_hooks/useProductFilterForm";
-import { cn } from "../../../../lib/utils";
+} from "@/components/ui/accordion";
+import {
+  MAX_PRICE,
+  MIN_PRICE,
+  ProductFilterFormValues,
+} from "../../_hooks/useProductFilterForm";
+import { cn } from "@/lib/utils";
 import CategoryRadioGroup from "./CategoryRadioGroup";
 import { SaleCheckbox } from "./SaleCheckbox";
 import RatingRadioGroup from "./RatingRadioGroup";
@@ -18,13 +22,13 @@ import { ComponentProps } from "react";
 interface ProductFilterFormProps extends ComponentProps<"div"> {}
 
 export default function ProductFilterForm(props: ProductFilterFormProps) {
-  const form = useFormContext();
+  const form = useFormContext<ProductFilterFormValues>();
 
   return (
     <div
       {...props}
       className={cn(
-        "flex min-w-fit max-w-[30rem] shrink grow basis-80 flex-col overflow-hidden rounded-xl bg-bg-secondary",
+        "flex h-min min-w-fit max-w-[30rem] shrink grow basis-80 flex-col overflow-hidden rounded-xl bg-bg-secondary",
         props.className,
       )}
     >
@@ -33,12 +37,7 @@ export default function ProductFilterForm(props: ProductFilterFormProps) {
           Product filter
         </h2>
         <SaleCheckbox />
-        <PriceRangeInput
-          minPrice={MIN_PRICE}
-          maxPrice={MAX_PRICE}
-          minName="minPrice"
-          maxName="maxPrice"
-        />
+        <PriceRangeInput minPrice={MIN_PRICE} maxPrice={MAX_PRICE} />
         <Accordion type="multiple" defaultValue={["category", "rating"]}>
           <AccordionItem
             title="Category"
@@ -61,13 +60,25 @@ export default function ProductFilterForm(props: ProductFilterFormProps) {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        {Object.values(form.formState.errors).map((error, index) => (
+          <span key={index} className="text-red-500">
+            {error?.message?.toString()}
+          </span>
+        ))}
+
         <button
           type="reset"
           onClick={() => {
-            console.log(form.getValues());
-
-            form.reset();
-            console.log(form.getValues());
+            form.reset({
+              sale: false,
+              minPrice: MIN_PRICE,
+              maxPrice: MAX_PRICE,
+              category: "undefined",
+              stock: "undefined",
+              price: "undefined",
+              starsCount: "undefined",
+              limit: 16,
+            });
           }}
           className="ml-auto flex w-fit items-center hover:underline"
         >

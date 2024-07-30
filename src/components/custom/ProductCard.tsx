@@ -11,7 +11,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 function ProductCard({ product, ...props }: ProductCardProps) {
   return (
-    <div className="flex h-[28rem] w-60">
+    <div className="flex h-[28rem] w-60 min-w-60">
       <div
         {...props}
         className={cn(

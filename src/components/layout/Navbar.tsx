@@ -2,20 +2,21 @@
 import { usePathname } from "next/navigation";
 import { CartIcon, LikeIcon, LogoIcon, SearchIcon, UserIcon } from "../icons";
 import Link from "next/link";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 import { PackageSearch } from "lucide-react";
 import { House } from "lucide-react";
+import { LINKS as APP_LINKS } from "@/utils/links";
 
-const LINKS = {
-  home: { href: "/", label: "Home" },
-  catalog: { href: "/catalog", label: "Catalog" },
-  bicycles: { href: "/bicycles", label: "Bicycles" },
-  skateboards: { href: "/skateboards", label: "Skateboards" },
-  scooters: { href: "/scooters", label: "Scooters" },
-  gyroboards: { href: "/gyroboards", label: "Gyroboards" },
-  monowheels: { href: "/monowheels", label: "Monowheels" },
-  accessories: { href: "/accessories", label: "Accessories" },
-};
+const LINKS = [
+  { href: APP_LINKS.HOME, label: "Home" },
+  { href: APP_LINKS.CATALOG, label: "Catalog" },
+  { href: APP_LINKS.CATALOG_BICYCLE, label: "Bicycles" },
+  { href: APP_LINKS.CATALOG_SKATEBOARD, label: "Skateboards" },
+  { href: APP_LINKS.CATALOG_SCOOTER, label: "Scooters" },
+  { href: APP_LINKS.CATALOG_GYROBOARD, label: "Gyroboards" },
+  { href: APP_LINKS.CATALOG_MONOWHEEL, label: "Monowheels" },
+  { href: APP_LINKS.CATALOG_ACCESSORY, label: "Accessories" },
+];
 
 const ICONIC_LINKS = [
   { href: "/search", icon: <SearchIcon /> },
@@ -25,7 +26,7 @@ const ICONIC_LINKS = [
 ];
 
 function Navbar() {
-  const selected = usePathname();
+  const path = usePathname();
 
   return (
     <nav className="sticky top-0 z-50 flex h-14 w-full flex-row flex-nowrap items-center justify-around gap-4 overflow-hidden px-4 shadow-md backdrop-blur-sm sm:gap-8">
@@ -35,10 +36,10 @@ function Navbar() {
       <ul className="flex h-[2em] min-w-16 flex-wrap items-center justify-center gap-4 overflow-hidden">
         <li className="sm:hidden">
           <Link
-            href={LINKS.home.href}
+            href={APP_LINKS.HOME}
             className={cn(
               "transition-[color] duration-300 hover:text-red",
-              selected === LINKS.home.href && "text-red",
+              path === APP_LINKS.HOME && "text-red",
             )}
           >
             <House />
@@ -46,21 +47,21 @@ function Navbar() {
         </li>
         <li className="sm:hidden">
           <Link
-            href={LINKS.catalog.href}
+            href={APP_LINKS.CATALOG}
             className={cn(
               "transition-[color] duration-300 hover:text-red",
-              selected === LINKS.catalog.href && "text-red",
+              path === APP_LINKS.CATALOG && "text-red",
             )}
           >
             <PackageSearch />
           </Link>
         </li>
-        {Object.values(LINKS).map(({ href, label }) => (
+        {LINKS.map(({ href, label }) => (
           <li
             key={`${href}${label}`}
             className={cn(
               "hidden border-b-4 border-transparent text-lg font-normal transition-[border-color] duration-300 hover:border-red sm:flex",
-              selected === href && "border-red",
+              path === href && "border-red",
             )}
           >
             <Link href={href}>{label}</Link>
@@ -75,7 +76,7 @@ function Navbar() {
               href={href}
               className={cn(
                 "transition-[color] duration-300 hover:text-red",
-                selected === href && "text-red",
+                path === href && "text-red",
               )}
             >
               {icon}

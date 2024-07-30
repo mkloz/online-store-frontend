@@ -11,11 +11,14 @@ export function Rating({ rating = 0, ...props }: RatingProps) {
   return (
     <div {...props} className={cn("flex", props.className)}>
       {Array.from({ length: startCount }).map((_, index) => (
-        <StarIcon key={index} className="fill-yellow text-yellow" />
+        <StarIcon
+          key={index}
+          className="h-full w-auto fill-yellow text-yellow"
+        />
       ))}
 
       {Array.from({ length: 5 - startCount }).map((_, index) => (
-        <StarIcon key={index} className="text-yellow" />
+        <StarIcon key={index} className="h-full w-auto text-yellow" />
       ))}
     </div>
   );
