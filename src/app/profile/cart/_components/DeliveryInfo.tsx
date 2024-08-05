@@ -6,7 +6,7 @@ const INFO = [
 ];
 export function DeliveryInfo() {
   return (
-    <div className="flex h-fit w-full max-w-md grow flex-col rounded-2xl bg-bg-secondary p-4 font-medium">
+    <div className="flex h-fit w-full max-w-lg grow flex-col rounded-2xl bg-bg-secondary p-4 font-medium">
       {INFO.map((info) => (
         <p
           key={info}

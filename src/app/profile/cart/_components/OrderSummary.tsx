@@ -46,10 +46,10 @@ export default function CartSummary({ cart, ...props }: OrderSummaryProps) {
         </div>
       </div>
       <div className="flex gap-2">
-        <Button className="grow">Confirm</Button>
         <Button btnStyle={"outline"} className="grow">
           Cancel
         </Button>
+        <Button className="grow">Confirm</Button>
       </div>
     </div>
   );
