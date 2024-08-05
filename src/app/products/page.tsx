@@ -6,9 +6,9 @@ import ProductFilterForm from "./_components/forms/ProductFilterForm";
 import ProductSortForm from "./_components/forms/ProductSortForm";
 import ProductsList from "./_components/ProductsList";
 import { useProductFilterForm } from "./_hooks/useProductFilterForm";
-import Breadcrumbs from "./_components/Breadcrumb";
+import Breadcrumbs from "./_components/Breadcrumbs";
 
-export default function CatalogPage() {
+export default function ProductPage() {
   const form = useProductFilterForm();
   const searchParams = useSearchParams();
   const pathname = usePathname();

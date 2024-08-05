@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { CartIcon, LikeIcon, LogoIcon, SearchIcon, UserIcon } from "../icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -19,15 +19,18 @@ const LINKS = [
 ];
 
 const ICONIC_LINKS = [
-  { href: "/search", icon: <SearchIcon /> },
-  { href: "/like", icon: <LikeIcon /> },
-  { href: "/cart", icon: <CartIcon /> },
-  { href: "/user", icon: <UserIcon /> },
+  { href: APP_LINKS.SEARCH, icon: <SearchIcon /> },
+  { href: APP_LINKS.FAVORITES, icon: <LikeIcon /> },
+  { href: APP_LINKS.CART, icon: <CartIcon /> },
+  { href: APP_LINKS.PROFILE, icon: <UserIcon /> },
 ];
 
 function Navbar() {
   const path = usePathname();
+  const searchParams = new URLSearchParams(useSearchParams()).toString();
 
+  const uri = path + (searchParams ? `?${searchParams}` : "");
+  console.log(uri);
   return (
     <nav className="sticky top-0 z-50 flex h-14 w-full flex-row flex-nowrap items-center justify-around gap-4 overflow-hidden px-4 shadow-md backdrop-blur-sm sm:gap-8">
       <Link href="/">
@@ -39,7 +42,7 @@ function Navbar() {
             href={APP_LINKS.HOME}
             className={cn(
               "transition-[color] duration-300 hover:text-red",
-              path === APP_LINKS.HOME && "text-red",
+              uri === APP_LINKS.HOME && "text-red",
             )}
           >
             <House />
@@ -50,7 +53,7 @@ function Navbar() {
             href={APP_LINKS.CATALOG}
             className={cn(
               "transition-[color] duration-300 hover:text-red",
-              path === APP_LINKS.CATALOG && "text-red",
+              uri.includes(APP_LINKS.CATALOG) && "text-red",
             )}
           >
             <PackageSearch />
@@ -61,7 +64,8 @@ function Navbar() {
             key={`${href}${label}`}
             className={cn(
               "hidden border-b-4 border-transparent text-lg font-normal transition-[border-color] duration-300 hover:border-red sm:flex",
-              path === href && "border-red",
+              uri.includes(href) && href !== APP_LINKS.HOME && "border-red",
+              uri === href && href === APP_LINKS.HOME && "border-red",
             )}
           >
             <Link href={href}>{label}</Link>
@@ -76,7 +80,7 @@ function Navbar() {
               href={href}
               className={cn(
                 "transition-[color] duration-300 hover:text-red",
-                path === href && "text-red",
+                uri === href && "text-red",
               )}
             >
               {icon}

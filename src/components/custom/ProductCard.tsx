@@ -5,14 +5,17 @@ import { Rating } from "./Rating";
 import Button from "./Button";
 import { cn } from "../../lib/utils";
 import { Image as ImageIcon } from "lucide-react";
+import Link from "next/link";
 
-interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ProductCardProps
+  extends Omit<React.ComponentProps<typeof Link>, "href"> {
   product: IProduct;
 }
 function ProductCard({ product, ...props }: ProductCardProps) {
   return (
-    <div className="flex h-[28rem] w-60 min-w-60">
-      <div
+    <article className="flex h-[28rem] w-60 min-w-60">
+      <Link
+        href={`/products/${product.id}`}
         {...props}
         className={cn(
           "group/card relative m-auto flex h-[27rem] w-56 flex-col gap-8 overflow-hidden rounded-3xl bg-bg-secondary shadow-md hover:shadow-xl",
@@ -20,7 +23,7 @@ function ProductCard({ product, ...props }: ProductCardProps) {
         )}
       >
         <div className="flex justify-between pr-4 pt-4">
-          {product.sale && (
+          {product.sale && product.inStock && (
             <div className="flex translate-x-[-3.5rem] gap-4 rounded-r-md bg-red px-4 py-1 text-text-light transition-transform group-hover/card:translate-x-0">
               <span>
                 {(
@@ -32,6 +35,11 @@ function ProductCard({ product, ...props }: ProductCardProps) {
               <span>Sale</span>
             </div>
           )}
+          {!product.inStock && (
+            <div className="flex rounded-r-md bg-gray px-4 py-1 text-text-light">
+              <span>Out of stock</span>
+            </div>
+          )}
 
           <button className="ml-auto">
             <LikeIcon />
@@ -39,7 +47,7 @@ function ProductCard({ product, ...props }: ProductCardProps) {
         </div>
         {product?.images?.[0].url ? (
           <Image
-            src={product?.images?.[0].url || ""}
+            src={product?.images[0].url || ""}
             alt="Image"
             placeholder="blur"
             blurDataURL={product?.images?.[0].url}
@@ -63,12 +71,15 @@ function ProductCard({ product, ...props }: ProductCardProps) {
               {product.sale?.newPrise ? `$${product.price}` : ""}
             </span>
           </div>
-          <Button className="transition-colors duration-300 hover:border-btn-secondary hover:bg-btn-secondary">
+          <Button
+            btnState={product.inStock ? "active" : "disabled"}
+            className="transition-colors duration-300 enabled:hover:border-btn-secondary enabled:hover:bg-btn-secondary"
+          >
             Buy
           </Button>
         </div>
-      </div>
-    </div>
+      </Link>
+    </article>
   );
 }
 

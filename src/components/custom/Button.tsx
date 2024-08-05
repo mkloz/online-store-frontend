@@ -1,4 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
+import Link from "next/link";
 
 const button = cva(
   "rounded-xl  focus-visible:ring-2 focus-visible:ring-red flex justify-center items-center border-2 border-solid  font-bold  text-lg overflow-hidden",
@@ -83,10 +84,32 @@ export function Button({
   return (
     <button
       {...props}
-      className={button({ btnState, btnStyle, size, className })}
+      className={button({ className, btnState, btnStyle, size })}
+      disabled={btnState === "disabled"}
     >
       {children}
     </button>
+  );
+}
+interface LinkButtonProps
+  extends React.ComponentProps<typeof Link>,
+    VariantProps<typeof button> {}
+
+export function LinkButton({
+  children,
+  btnState,
+  btnStyle,
+  size,
+  className,
+  ...props
+}: LinkButtonProps) {
+  return (
+    <Link
+      {...props}
+      className={button({ btnState, btnStyle, size, className })}
+    >
+      {children}
+    </Link>
   );
 }
 export default Button;

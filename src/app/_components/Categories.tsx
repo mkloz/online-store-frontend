@@ -10,7 +10,7 @@ function Category({ photoUrl, name, href }: CategoryProps) {
   return (
     <Link
       href={href}
-      className="relative flex h-[16rem] min-w-fit max-w-[40rem] grow basis-[28rem] flex-col items-center justify-center overflow-hidden rounded-3xl border-4 border-transparent bg-center hover:border-4 hover:border-red"
+      className="text-shadow-md relative flex h-[16rem] min-w-fit max-w-[40rem] grow basis-[28rem] flex-col items-center justify-center overflow-hidden rounded-3xl border-4 border-transparent bg-center [text-shadow:_0_1px_0_rgb(0_0_0_/_100%)] hover:border-4 hover:border-red"
     >
       <Image
         src={photoUrl}

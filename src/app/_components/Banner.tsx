@@ -1,4 +1,4 @@
-import Button from "@/components/custom/Button";
+import { LinkButton } from "@/components/custom/Button";
 import Image from "next/image";
 
 export function Banner() {
@@ -7,12 +7,13 @@ export function Banner() {
       <div className="mt-16 flex flex-col gap-2 md:mt-0">
         <h1>Be faster on wheels</h1>
         <p>Buy new wheels for yourself and move with pleasure</p>
-        <Button
+        <LinkButton
+          href="/products"
           size="wide"
           className="relative mt-4 rounded-2xl py-4 after:absolute after:inset-0 after:left-[100%] after:bg-purple-700 after:transition-[left_2s,_background-color] after:duration-1000 hover:after:left-0 hover:after:bg-red"
         >
           <p className="z-10"> View the catalog </p>
-        </Button>
+        </LinkButton>
       </div>
       <Image
         src="/images/man-on-skate.png"

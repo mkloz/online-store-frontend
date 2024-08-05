@@ -20,7 +20,6 @@ export interface IArticlePhoto {
   id: number;
   name: string;
   url: string;
-  articleId: number;
   createdAt: Date;
   updatedAt: Date;
   article?: IProduct;
@@ -36,7 +35,6 @@ export interface ISale {
   id: number;
   newPrise: number;
   activeTill: Date;
-  articleId: number;
   createdAt: Date;
   updatedAt: Date;
   article?: IProduct;

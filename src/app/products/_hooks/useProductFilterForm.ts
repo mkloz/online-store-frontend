@@ -53,18 +53,9 @@ function isEqualParams(a: URLSearchParams, b: URLSearchParams) {
 }
 export type ProductFilterFormValues = zod.infer<typeof ProductFilterSchema>;
 
-const CategoryParamSchema = zod.object({
-  category: zod
-    .array(zod.string())
-    .default([])
-    .transform((value) => value[0]),
-});
-
 export function useProductFilterForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const params = useParams();
-  const { category } = CategoryParamSchema.parse(params);
   const search = useMemo(
     () => new URLSearchParams(searchParams),
     [searchParams],
@@ -75,13 +66,13 @@ export function useProductFilterForm() {
       sale: search.get("sale") === "true" || false,
       minPrice: Number(search.get("minPrice")) || MIN_PRICE,
       maxPrice: Number(search.get("maxPrice")) || MAX_PRICE,
-      category: category || "undefined",
+      category: search.get("category") || "undefined",
       stock: search.get("stock") || "undefined",
       price: search.get("price") || "undefined",
       starsCount: Number(search.get("starsCount")) || "undefined",
       limit: Number(search.get("limit")) || 16,
     }),
-    [search, category],
+    [search],
   );
   const form = useForm<ProductFilterFormValues>({
     resolver: zodResolver(ProductFilterSchema),
@@ -94,24 +85,15 @@ export function useProductFilterForm() {
     (values: ProductFilterFormValues) => {
       const query = new URLSearchParams(searchParams);
 
-      Object.entries(values)
-        .filter(([key]) => key !== "category")
-        .forEach(([key, value]) => {
-          query.set(key, String(value));
-        });
+      Object.entries(values).forEach(([key, value]) => {
+        query.set(key, String(value));
+      });
 
-      if (
-        isEqualParams(query, new URLSearchParams(searchParams)) &&
-        category === values.category
-      )
-        return;
+      if (isEqualParams(query, new URLSearchParams(searchParams))) return;
 
-      router.replace(
-        `/catalog${values.category === "undefined" ? "" : `/${values.category}`}?${query.toString()}`,
-        { scroll: false },
-      );
+      router.replace(`/products?${query.toString()}`, { scroll: false });
     },
-    [searchParams, router, category],
+    [searchParams, router],
   );
 
   const saveToState = useCallback(() => {
