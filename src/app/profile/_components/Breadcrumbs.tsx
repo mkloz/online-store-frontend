@@ -1,3 +1,4 @@
+"use client";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,11 +8,17 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { LINKS } from "@/utils/links";
+import { usePathname } from "next/navigation";
+import { PROFILE_TABS } from "../layout";
 
-interface BreadcrumbsProps extends React.ComponentProps<typeof Breadcrumb> {
-  current?: string;
-}
-export function Breadcrumbs({ current, ...props }: BreadcrumbsProps) {
+interface BreadcrumbsProps extends React.ComponentProps<typeof Breadcrumb> {}
+
+export function Breadcrumbs({ ...props }: BreadcrumbsProps) {
+  const pathname = usePathname();
+  const current =
+    Object.values(PROFILE_TABS).find((tab) => tab.link === pathname) ||
+    PROFILE_TABS.profile;
+
   return (
     <Breadcrumb {...props}>
       <BreadcrumbList>
@@ -26,7 +33,7 @@ export function Breadcrumbs({ current, ...props }: BreadcrumbsProps) {
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{current}</BreadcrumbPage>
+              <BreadcrumbPage>{current.name}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}

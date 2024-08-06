@@ -1,4 +1,3 @@
-"use client";
 import { orders } from "../../../__mock/orders";
 import Order from "./_components/Order";
 

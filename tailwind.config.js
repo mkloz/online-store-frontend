@@ -53,10 +53,31 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        jump: {
+          "0%, 30%, 75%": { transform: "translateY(0px)" },
+          "50%": {
+            transform: "translateY(-200%)",
+            "animation-timing-function": "ease-in",
+          },
+        },
+        morph: {
+          "0%, 10%, 40%, 70%, 85%, 100%": { transform: "scaleY(1)" },
+          "20%, 25%": {
+            transform: "scaleY(0.6) scaleX(1.3)",
+            "animation-timing-function": "ease-in-out",
+          },
+          "30%": {
+            transform: "scaleY(1.15) scaleX(0.9)",
+            "animation-timing-function": "ease-in-out",
+          },
+          "75%": { transform: "scaleY(0.8) scaleX(1.2)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        jump: "jump 1.75s ease-in-out infinite",
+        morph: "morph 1.75s ease-in-out infinite",
       },
     },
   },

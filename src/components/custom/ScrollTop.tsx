@@ -1,7 +1,7 @@
 "use client";
-import { useWindowScroll, useWindowSize } from "@uidotdev/usehooks";
+import { useWindowScroll } from "@uidotdev/usehooks";
 import { CircleArrowUp } from "lucide-react";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ScrollTop() {
   const [opacity, setOpacity] = useState(0);

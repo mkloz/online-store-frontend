@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ScrollTop from "../components/custom/ScrollTop";
+import { Suspense } from "react";
+import Navbar from "../components/layout/Navbar";
 
 export const metadata: Metadata = {
   title: "CityWheels",
@@ -20,7 +21,9 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className="flex min-h-screen flex-col"
       >
-        <Navbar />
+        <Suspense>
+          <Navbar />
+        </Suspense>
         <div className="flex grow">{children}</div>
         <Footer />
         <ScrollTop />

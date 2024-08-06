@@ -1,4 +1,3 @@
-"use client";
 import { cart } from "../../../__mock/cart";
 import CartItem from "./_components/CartItem";
 import { DeliveryInfo } from "./_components/DeliveryInfo";
