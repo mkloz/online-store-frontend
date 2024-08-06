@@ -2,8 +2,6 @@ import Banner from "./_components/Banner";
 import { Categories } from "./_components/Categories";
 import ProductsFeed from "./_components/ProductsFeed";
 
-export const revalidate = 1;
-
 export default function HomePage() {
   return (
     <main className="flex w-full flex-col items-center">

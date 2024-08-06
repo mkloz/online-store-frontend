@@ -63,7 +63,7 @@ export default function RootLayout({
             ))}
           </ul>
         </aside>
-        <div className="grow self-start">{children}</div>
+        <div className="grow">{children}</div>
       </div>
       <div className="flex w-full gap-4 text-gray">
         <Link href={LINKS.ARCHIVE}>Orders archive</Link>
