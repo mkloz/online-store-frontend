@@ -25,7 +25,7 @@ export default function RatingRadioGroup() {
               value={String(field.value)}
               className="flex flex-col gap-0"
             >
-              {[5, 4, 3, 2].map((value, i) => (
+              {[5, 4, 3, 2, 1, 0].map((value, i) => (
                 <FormItem key={i} className="flex items-center">
                   <FormControl>
                     <RadioGroupItem value={value.toString()} />

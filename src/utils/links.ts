@@ -1,6 +1,6 @@
 export enum LINKS {
   HOME = "/",
-  CATALOG = "/products?category=undefined",
+  CATALOG = "/products",
   CATALOG_BICYCLE = "/products?category=bicycle",
   CATALOG_ACCESSORY = "/products?category=accessory",
   CATALOG_GYROBOARD = "/products?category=gyroboard",
@@ -14,4 +14,6 @@ export enum LINKS {
   ORDERS = "/profile/orders",
   SETTINGS = "/profile/settings",
   SEARCH = "/search",
+  LOGIN = "/?signIn",
+  API_LOGOUT = "/api/auth/logout",
 }

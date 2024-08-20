@@ -12,6 +12,17 @@ module.exports = {
         "2xl": "1536px",
         "3xl": "1920px",
       },
+      borderRadius: {
+        "4xl": "2rem",
+        "5xl": "2.5rem",
+        "6xl": "3rem",
+        "1/2": "50%",
+        "1/3": "33.333333%",
+        "1/4": "25%",
+        "1/5": "20%",
+        "1/6": "16.666667%",
+        "1/12": "8.333333%",
+      },
       fontFamily: {
         lato: "var(--font-lato)",
         bruno: "var(--font-bruno)",
@@ -81,5 +92,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };

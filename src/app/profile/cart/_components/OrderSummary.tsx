@@ -1,11 +1,19 @@
 import { cn } from "@/lib/utils";
 import { ICart } from "@/types/cart";
 import Button from "../../../../components/custom/Button";
+import CancelOrderButton from "./CancelOrderButton";
+import ConfirmOrderButton from "./ConfirmOrderButton";
+import { IUser } from "../../../../types/user";
 
 interface OrderSummaryProps extends React.ComponentProps<"div"> {
   cart: ICart;
+  user: IUser;
 }
-export default function CartSummary({ cart, ...props }: OrderSummaryProps) {
+export default function CartSummary({
+  cart,
+  user,
+  ...props
+}: OrderSummaryProps) {
   return (
     <div
       {...props}
@@ -20,36 +28,39 @@ export default function CartSummary({ cart, ...props }: OrderSummaryProps) {
           <p>Price</p>
           <p className="text-gray">
             $
-            {cart.cartItems?.reduce(
-              (prev, current) =>
-                prev + (current.article?.price || 0) * current.quantity,
-              0,
-            )}
+            {cart.cartItems
+              ?.reduce(
+                (prev, current) =>
+                  prev + (current.article?.price || 0) * current.quantity,
+                0,
+              )
+              .toFixed(2)}
           </p>
         </div>
         <div className="flex justify-between">
           <p>Sale</p>
           <p className="text-gray">
             $
-            {cart.cartItems?.reduce(
-              (prev, current) =>
-                prev +
-                (current.article?.price || 0) -
-                (current.article?.sale?.newPrise || 0),
-              0,
-            )}
+            {cart.cartItems
+              ?.reduce(
+                (prev, current) =>
+                  prev +
+                  ((current.article?.price || 0) -
+                    (current.article?.sale?.newPrise || 0)) *
+                    current.quantity,
+                0,
+              )
+              .toFixed(2)}
           </p>
         </div>
         <div className="my-4 flex justify-between">
           <p>Total</p>
-          <p className="text-lg">${cart.totalPrice}</p>
+          <p className="text-lg">${cart.totalPrice?.toFixed(2)}</p>
         </div>
       </div>
       <div className="flex gap-2">
-        <Button btnStyle={"outline"} className="grow">
-          Cancel
-        </Button>
-        <Button className="grow">Confirm</Button>
+        <CancelOrderButton />
+        <ConfirmOrderButton address={user.address} />
       </div>
     </div>
   );

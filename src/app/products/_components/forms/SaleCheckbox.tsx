@@ -17,7 +17,7 @@ export function SaleCheckbox() {
       control={form.control}
       name="sale"
       render={({ field }) => (
-        <FormItem className="mx-4 my-2 flex items-center gap-2">
+        <FormItem className="flex items-center gap-2">
           <FormControl>
             <Checkbox
               checked={field.value}

@@ -21,7 +21,7 @@ export default function ReviewCard({ review, ...props }: ReviewCardProps) {
           {dayjs(review.createdAt).format("DD.MM.YYYY")}
         </small>
         <Rating rating={review.stars} />
-        <ScrollArea>{review.text}</ScrollArea>
+        <ScrollArea className="h-full">{review.text}</ScrollArea>
       </div>
     </div>
   );

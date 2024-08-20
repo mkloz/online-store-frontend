@@ -7,14 +7,20 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { useDebounce } from "@uidotdev/usehooks";
-import { useCallback, useEffect, useLayoutEffect, useMemo } from "react";
+import { useCounter, useDebounce } from "@uidotdev/usehooks";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 
 export const MIN_PRICE = 0;
 export const MAX_PRICE = 10_000;
 
 const ProductFilterSchema = zod.object({
-  sale: zod.boolean().default(false),
+  sale: zod.boolean().optional(),
   minPrice: zod.number().min(MIN_PRICE).default(MIN_PRICE),
   maxPrice: zod.number().max(MAX_PRICE).default(MAX_PRICE),
   category: zod
@@ -27,22 +33,17 @@ const ProductFilterSchema = zod.object({
     .or(zod.literal("monowheel"))
     .or(zod.string())
     .default("undefined"),
-  starsCount: zod
-    .number()
-    .int()
-    .min(0)
-    .max(5)
-    .or(zod.literal("undefined"))
-    .default("undefined"),
+  starsCount: zod.number().int().min(0).max(5).default(0),
   stock: zod
     .union([zod.literal("undefined"), zod.literal("inc"), zod.literal("exc")])
     .or(zod.string())
-    .default("undefined"),
+    .optional(),
   price: zod
     .union([zod.literal("undefined"), zod.literal("asc"), zod.literal("desc")])
     .or(zod.string())
-    .default("undefined"),
-  limit: zod.number().int().min(0).default(16),
+    .optional(),
+  limit: zod.number().int().min(0).default(16).optional(),
+  search: zod.string().optional(),
 });
 
 function isEqualParams(a: URLSearchParams, b: URLSearchParams) {
@@ -63,34 +64,42 @@ export function useProductFilterForm() {
 
   const searchParamToFields = useCallback(
     (): ProductFilterFormValues => ({
-      sale: search.get("sale") === "true" || false,
+      sale: search.get("sale") === "inc" || false,
       minPrice: Number(search.get("minPrice")) || MIN_PRICE,
       maxPrice: Number(search.get("maxPrice")) || MAX_PRICE,
       category: search.get("category") || "undefined",
-      stock: search.get("stock") || "undefined",
-      price: search.get("price") || "undefined",
-      starsCount: Number(search.get("starsCount")) || "undefined",
+      stock: search.get("stock") || undefined,
+      price: search.get("price") || undefined,
+      starsCount: Number(search.get("starsCount")) || 0,
       limit: Number(search.get("limit")) || 16,
+      search: search.get("search") || "",
     }),
     [search],
   );
   const form = useForm<ProductFilterFormValues>({
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: zodResolver(ProductFilterSchema),
     defaultValues: searchParamToFields(),
   });
   const formState = useWatch({ control: form.control });
-  const debouncedState = useDebounce(formState, 1000);
+  const debouncedState = useDebounce(formState, 500);
 
   const saveToQuery = useCallback(
     (values: ProductFilterFormValues) => {
       const query = new URLSearchParams(searchParams);
-
       Object.entries(values).forEach(([key, value]) => {
+        if (key === "sale") {
+          return value ? query.set(key, "inc") : query.delete(key);
+        }
+        if (String(value) === "undefined") return query.delete(key);
+
         query.set(key, String(value));
       });
 
       if (isEqualParams(query, new URLSearchParams(searchParams))) return;
 
+      query.delete("page");
       router.replace(`/products?${query.toString()}`, { scroll: false });
     },
     [searchParams, router],

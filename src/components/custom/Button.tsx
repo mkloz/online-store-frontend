@@ -1,7 +1,8 @@
 import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
+import { cn } from "../../lib/utils";
 
-const button = cva(
+export const buttonStyle = cva(
   "rounded-xl  focus-visible:ring-2 focus-visible:ring-red flex justify-center items-center border-2 border-solid  font-bold  text-lg overflow-hidden",
   {
     variants: {
@@ -28,7 +29,8 @@ const button = cva(
       {
         btnStyle: "filled",
         btnState: "active",
-        className: "bg-btn-primary text-text-light",
+        className:
+          "bg-btn-primary text-text-light hover:bg-btn-secondary transition-colors hover:border-btn-secondary",
       },
       {
         btnStyle: "filled",
@@ -57,6 +59,12 @@ const button = cva(
       },
       {
         btnStyle: "outline",
+        btnState: "active",
+        className:
+          "hover:border-btn-secondary transition-colors hover:text-btn-secondary",
+      },
+      {
+        btnStyle: "outline",
         btnState: "disabled",
         className: "border-current text-text-disabled",
       },
@@ -71,7 +79,7 @@ const button = cva(
 
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+    VariantProps<typeof buttonStyle> {}
 
 export function Button({
   children,
@@ -84,7 +92,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={button({ className, btnState, btnStyle, size })}
+      className={cn(buttonStyle({ btnState, btnStyle, size }), className)}
       disabled={btnState === "disabled"}
     >
       {children}
@@ -93,7 +101,7 @@ export function Button({
 }
 interface LinkButtonProps
   extends React.ComponentProps<typeof Link>,
-    VariantProps<typeof button> {}
+    VariantProps<typeof buttonStyle> {}
 
 export function LinkButton({
   children,
@@ -106,7 +114,7 @@ export function LinkButton({
   return (
     <Link
       {...props}
-      className={button({ btnState, btnStyle, size, className })}
+      className={cn(buttonStyle({ btnState, btnStyle, size }), className)}
     >
       {children}
     </Link>

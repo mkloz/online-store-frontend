@@ -2,7 +2,6 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { ButtonProps, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
@@ -21,7 +20,10 @@ const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex flex-row items-center gap-4 text-slate-400", className)}
+    className={cn(
+      "flex flex-row items-center gap-1 text-slate-400 md:gap-4",
+      className,
+    )}
     {...props}
   />
 ));
@@ -50,7 +52,7 @@ const PaginationLink = ({
     aria-current={isActive ? "page" : undefined}
     className={cn(
       "flex size-9 items-center justify-center rounded-md border border-slate-300",
-      isCurrent && "bg-slate-300 p-[1.25rem] text-xl font-bold text-gray",
+      isCurrent && "bg-slate-300 text-xl font-bold text-gray",
       className,
     )}
     {...props}
@@ -102,7 +104,7 @@ const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    className={cn("flex items-center justify-center", className)}
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />

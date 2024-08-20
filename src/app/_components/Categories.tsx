@@ -1,24 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LINKS } from "../../utils/links";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Bicycle from "/public/images/bicycle.png";
+import Skateboard from "/public/images/skateboard.png";
+import Scooter from "/public/images/scooter.png";
+import Gyroboard from "/public/images/gyroboard.png";
+import Monowheel from "/public/images/monowheel.png";
+import Accessory from "/public/images/accessory.png";
+
 interface CategoryProps {
-  photoUrl: string;
+  photo: StaticImport;
   name: string;
   href: string;
 }
-function Category({ photoUrl, name, href }: CategoryProps) {
+function Category({ photo, name, href }: CategoryProps) {
   return (
     <Link
       href={href}
       className="text-shadow-md relative flex h-[16rem] min-w-fit max-w-[40rem] grow basis-[28rem] flex-col items-center justify-center overflow-hidden rounded-3xl border-4 border-transparent bg-center [text-shadow:_0_1px_0_rgb(0_0_0_/_100%)] hover:border-4 hover:border-red"
     >
       <Image
-        src={photoUrl}
+        src={photo}
         alt={name}
         width={460}
         height={266}
         placeholder="blur"
-        blurDataURL={photoUrl}
         className="absolute -z-10 h-full w-full object-cover object-center"
       />
       <h1 className="px-4 text-text-light">{name}</h1>
@@ -28,32 +35,32 @@ function Category({ photoUrl, name, href }: CategoryProps) {
 
 const CATEGORIES: CategoryProps[] = [
   {
-    photoUrl: "/images/bicycle.png",
+    photo: Bicycle,
     name: "Bicycles",
     href: LINKS.CATALOG_BICYCLE,
   },
   {
-    photoUrl: "/images/skateboard.png",
+    photo: Skateboard,
     name: "Skateboards",
     href: LINKS.CATALOG_SKATEBOARD,
   },
   {
-    photoUrl: "/images/scooter.png",
+    photo: Scooter,
     name: "Scooters",
     href: LINKS.CATALOG_SCOOTER,
   },
   {
-    photoUrl: "/images/gyroboard.png",
+    photo: Gyroboard,
     name: "Gyroboards",
     href: LINKS.CATALOG_GYROBOARD,
   },
   {
-    photoUrl: "/images/monowheel.png",
+    photo: Monowheel,
     name: "Monowheels",
     href: LINKS.CATALOG_MONOWHEEL,
   },
   {
-    photoUrl: "/images/accessory.png",
+    photo: Accessory,
     name: "Accessories",
     href: LINKS.CATALOG_ACCESSORY,
   },

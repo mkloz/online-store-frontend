@@ -1,8 +1,8 @@
 import { List, Settings } from "lucide-react";
-import { user } from "../../__mock/user";
-import { CartIcon, LikeIcon, UserIcon } from "../../components/icons";
+import { CartIcon, LikeIcon } from "../../components/icons";
 import { LINKS } from "../../utils/links";
 import UserCard from "./_components/UserCard";
+import UserApiService from "../../services/UserApiService";
 
 const INFO_LINKS = [
   { name: "Cart", link: LINKS.CART, icon: <CartIcon className="size-full" /> },
@@ -19,7 +19,9 @@ const INFO_LINKS = [
   },
 ];
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const user = await UserApiService.me();
+
   return (
     <div className="flex shrink flex-wrap items-center justify-center gap-12">
       <UserCard user={user} />

@@ -1,17 +1,21 @@
 import Button from "../../../../components/custom/Button";
+import LikeButton from "../../../../components/custom/product-card/LikeButton";
 import { Rating } from "../../../../components/custom/Rating";
-import { LikeIcon } from "../../../../components/icons";
 import { IProduct } from "../../../../types/product";
 import { IReview } from "../../../../types/review";
+import { IUser } from "../../../../types/user";
+import AddToCartButton from "./AddToCartButton";
 import ProductDescriptionTabs from "./ProductDescriptionTabs";
 
 interface ProductDescriptionCardProps {
   product: IProduct;
   reviews: IReview[];
+  user?: IUser | null;
 }
 
 export default function ProductDescriptionCard({
   product,
+  user,
   reviews,
 }: ProductDescriptionCardProps) {
   return (
@@ -38,7 +42,6 @@ export default function ProductDescriptionCard({
       {product.sale ? (
         <div className="flex basis-full items-center gap-6">
           <p className="text-3xl font-bold text-red">
-            {" "}
             ${product.sale.newPrise}
           </p>
           <p className="text-1xl font-bold text-gray line-through">
@@ -51,19 +54,16 @@ export default function ProductDescriptionCard({
         </p>
       )}
       <div className="my-4 flex gap-4">
-        <Button
-          btnState={product.inStock ? "active" : "disabled"}
-          className="transition-colors duration-300 enabled:hover:border-btn-secondary enabled:hover:bg-btn-secondary md:px-6"
-          disabled={!product.inStock}
-        >
-          <span className="px-4 py-2">Add to cart</span>
-        </Button>
-        <Button
-          btnStyle={"outline"}
-          className="transition-colors duration-300 hover:border-btn-secondary hover:text-btn-secondary"
-        >
-          <LikeIcon className="size-12 p-2" />
-        </Button>
+        <AddToCartButton product={product} />
+        {user && (
+          <LikeButton
+            product={product}
+            isFavorite={
+              user?.favorites?.some((p) => p.id === product.id) || false
+            }
+            className="size-14 rounded-xl border-2 p-3 hover:border-btn-secondary hover:text-btn-secondary"
+          />
+        )}
       </div>
       <ProductDescriptionTabs product={product} />
     </div>

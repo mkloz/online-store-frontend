@@ -13,15 +13,21 @@ import {
   ProductFilterFormValues,
 } from "../../_hooks/useProductFilterForm";
 import { cn } from "@/lib/utils";
-import CategoryRadioGroup from "./CategoryRadioGroup";
+import CategoryRadioGroup, { CategoriesCount } from "./CategoryRadioGroup";
 import { SaleCheckbox } from "./SaleCheckbox";
 import RatingRadioGroup from "./RatingRadioGroup";
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ComponentProps } from "react";
+import TextInputField from "../../../../components/forms/inputs/TextInputField";
 
-interface ProductFilterFormProps extends ComponentProps<"div"> {}
+interface ProductFilterFormProps extends ComponentProps<"div"> {
+  categoriesCount: CategoriesCount;
+}
 
-export default function ProductFilterForm(props: ProductFilterFormProps) {
+export default function ProductFilterForm({
+  categoriesCount,
+  ...props
+}: ProductFilterFormProps) {
   const form = useFormContext<ProductFilterFormValues>();
 
   return (
@@ -36,9 +42,12 @@ export default function ProductFilterForm(props: ProductFilterFormProps) {
         <h2 className="w-full basis-full bg-black p-4 text-text-light">
           Product filter
         </h2>
-        <SaleCheckbox />
-        <PriceRangeInput minPrice={MIN_PRICE} maxPrice={MAX_PRICE} />
-        <Accordion type="multiple" defaultValue={["category", "rating"]}>
+        <div className="flex flex-col gap-4 px-4">
+          <TextInputField name="search" label="Search" icon={<Search />} />
+          <SaleCheckbox />
+          <PriceRangeInput minPrice={MIN_PRICE} maxPrice={MAX_PRICE} />
+        </div>
+        <Accordion type="multiple" defaultValue={[]}>
           <AccordionItem
             title="Category"
             value="category"
@@ -48,7 +57,7 @@ export default function ProductFilterForm(props: ProductFilterFormProps) {
               Category
             </AccordionTrigger>
             <AccordionContent>
-              <CategoryRadioGroup />
+              <CategoryRadioGroup count={categoriesCount} />
             </AccordionContent>
           </AccordionItem>
           <AccordionItem title="Rating" value="rating" className="border-b-0">
@@ -74,9 +83,9 @@ export default function ProductFilterForm(props: ProductFilterFormProps) {
               minPrice: MIN_PRICE,
               maxPrice: MAX_PRICE,
               category: "undefined",
-              stock: "undefined",
-              price: "undefined",
-              starsCount: "undefined",
+              stock: undefined,
+              price: undefined,
+              starsCount: 0,
               limit: 16,
             });
           }}

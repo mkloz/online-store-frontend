@@ -31,7 +31,9 @@ export default function ProductSortForm() {
           name={"stock"}
           render={({ field }) => (
             <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger>{SELECT_STOCK_OPTION[field.value]}</SelectTrigger>
+              <SelectTrigger>
+                {SELECT_STOCK_OPTION[field.value || "undefined"]}
+              </SelectTrigger>
               <SelectContent>
                 {Object.entries(SELECT_STOCK_OPTION)
                   .filter(([key]) => key !== field.value)
@@ -51,7 +53,9 @@ export default function ProductSortForm() {
           name={"price"}
           render={({ field }) => (
             <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger>{SELECT_PRICE_OPTION[field.value]}</SelectTrigger>
+              <SelectTrigger>
+                {SELECT_PRICE_OPTION[field.value || "undefined"]}
+              </SelectTrigger>
               <SelectContent>
                 {Object.entries(SELECT_PRICE_OPTION)
                   .filter(([key]) => key !== field.value)

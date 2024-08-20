@@ -11,7 +11,7 @@ export default function CreateNewCard({
     <div
       {...props}
       className={cn(
-        "flex min-w-fit max-w-full basis-[26rem] flex-col items-center justify-center gap-4 rounded-3xl bg-bg-secondary p-8 text-gray",
+        "flex min-w-fit max-w-full basis-[26rem] cursor-pointer flex-col items-center justify-center gap-4 rounded-3xl bg-bg-secondary p-8 text-gray hover:text-purple-700",
         props.className,
       )}
     >

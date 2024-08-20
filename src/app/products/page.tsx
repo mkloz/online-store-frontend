@@ -1,44 +1,61 @@
-"use client";
-import { usePathname, useSearchParams } from "next/navigation";
-import { PaginationLinks } from "@/components/custom/PaginationLinks";
-import { Form } from "@/components/ui/form";
-import ProductFilterForm from "./_components/forms/ProductFilterForm";
-import ProductSortForm from "./_components/forms/ProductSortForm";
-import ProductsList from "./_components/ProductsList";
-import { useProductFilterForm } from "./_hooks/useProductFilterForm";
-import Breadcrumbs from "./_components/Breadcrumbs";
+import { ProductApiService } from "../../services/ProductApiService";
+import { IPageProps } from "../../types/nextjs";
+import { ProductFilterOptionsSchema } from "../../types/product";
+import getUser from "../../utils/getUser";
+import FilterForm from "./_components/FilterForm";
 
-export default function ProductPage() {
-  const form = useProductFilterForm();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
+export default async function ProductPage({ searchParams }: IPageProps) {
+  const search = ProductFilterOptionsSchema.parse(searchParams);
+  const products = await ProductApiService.getMany(search);
+  const user = await getUser();
+  const categoriesCount = {
+    all: await ProductApiService.getMany({
+      ...search,
+      category: undefined,
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    bicycles: await ProductApiService.getMany({
+      ...search,
+      category: "bicycle",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    accessories: await ProductApiService.getMany({
+      ...search,
+      category: "accessory",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    gyroboards: await ProductApiService.getMany({
+      ...search,
+      category: "gyroboard",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    monowheels: await ProductApiService.getMany({
+      ...search,
+      category: "monowheel",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    scooters: await ProductApiService.getMany({
+      ...search,
+      category: "scooter",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+    skateboards: await ProductApiService.getMany({
+      ...search,
+      category: "skateboard",
+      limit: 0,
+    }).then((res) => res.meta.itemCount),
+  };
   return (
-    <main className="flex w-full flex-row items-center p-[5%]">
-      <Form {...form}>
-        <form className="flex w-full flex-row flex-wrap justify-around gap-10">
-          <Breadcrumbs className="w-full" />
-          <ProductFilterForm className="basis-auto" />
-          <div className="flex grow flex-col flex-nowrap gap-8">
-            <ProductSortForm />
-            <ProductsList />
-            <PaginationLinks
-              items={[
-                {
-                  href: `${pathname}?${new URLSearchParams(searchParams)
-                    .toString()
-                    .replace(/category=\w+/, "category=undefined")}`,
-                  page: 1,
-                },
-                { href: "#", page: 2 },
-                { href: "#", page: 3 },
-                { href: "#", page: 4 },
-              ]}
-              currentPage={4}
-            />
-          </div>
-        </form>
-      </Form>
+    <main className="flex w-full flex-row items-center px-[5%] py-12">
+      <FilterForm
+        products={products.items}
+        currentPage={search.page || 1}
+        categoriesCount={categoriesCount}
+        user={user}
+        lastPage={Math.ceil(
+          products.meta.itemCount / products.meta.itemsPerPage,
+        )}
+      />
     </main>
   );
 }

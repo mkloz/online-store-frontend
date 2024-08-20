@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import useProductParam from "../_hooks/useCategoryProductParams";
 import { LINKS } from "../../../../utils/links";
 
 interface BreadcrumbsProps extends React.ComponentProps<typeof Breadcrumb> {

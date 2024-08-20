@@ -1,6 +1,7 @@
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -13,6 +14,8 @@ interface IPaginationItem {
 interface PaginationLinksProps {
   items: IPaginationItem[];
   currentPage?: number;
+  firstPage?: IPaginationItem;
+  lastPage?: IPaginationItem;
 }
 
 export function PaginationLinks(props: PaginationLinksProps) {
@@ -30,6 +33,19 @@ export function PaginationLinks(props: PaginationLinksProps) {
             isActive={currentIndex > 0}
           />
         </PaginationItem>
+        {props.firstPage &&
+          !props.items.some((v) => v.page == props.firstPage?.page) && (
+            <>
+              <PaginationItem>
+                <PaginationLink href={props.firstPage.href}>
+                  {props.firstPage.page}
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            </>
+          )}
         {props.items.map((item) => (
           <PaginationItem key={item.page}>
             <PaginationLink
@@ -40,6 +56,19 @@ export function PaginationLinks(props: PaginationLinksProps) {
             </PaginationLink>
           </PaginationItem>
         ))}
+        {props.lastPage &&
+          !props.items.some((v) => v.page == props.lastPage?.page) && (
+            <>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href={props.lastPage.href}>
+                  {props.lastPage.page}
+                </PaginationLink>
+              </PaginationItem>
+            </>
+          )}
         <PaginationItem>
           <PaginationNext
             href={props.items.at(currentIndex + 1)?.href || "#"}

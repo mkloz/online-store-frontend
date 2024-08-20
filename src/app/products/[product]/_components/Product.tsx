@@ -4,12 +4,19 @@ import ProductImageCarousel from "./ProductImageCarousel";
 import { cn } from "@/lib/utils";
 import { IReview } from "../../../../types/review";
 import ProductDescriptionCard from "./ProductDescriptionCard";
+import { IUser } from "../../../../types/user";
 
 interface ProductProps extends React.ComponentProps<"section"> {
   product: IProduct;
   reviews: IReview[];
+  user?: IUser | null;
 }
-export default function Product({ product, reviews, ...props }: ProductProps) {
+export default function Product({
+  product,
+  reviews,
+  user,
+  ...props
+}: ProductProps) {
   return (
     <section
       {...props}
@@ -19,7 +26,7 @@ export default function Product({ product, reviews, ...props }: ProductProps) {
       )}
     >
       <ProductImageCarousel product={product} />
-      <ProductDescriptionCard product={product} reviews={reviews} />
+      <ProductDescriptionCard product={product} reviews={reviews} user={user} />
     </section>
   );
 }

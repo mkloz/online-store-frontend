@@ -1,8 +1,11 @@
+import getUser from "../utils/getUser";
 import Banner from "./_components/Banner";
 import { Categories } from "./_components/Categories";
 import ProductsFeed from "./_components/ProductsFeed";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const user = await getUser();
+
   return (
     <main className="flex w-full flex-col items-center">
       <Banner />
@@ -10,7 +13,7 @@ export default function HomePage() {
         <Categories />
       </div>
       <div className="my-8 flex w-full justify-center">
-        <ProductsFeed />
+        <ProductsFeed user={user} />
       </div>
     </main>
   );

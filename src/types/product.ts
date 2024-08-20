@@ -1,50 +1,62 @@
-export interface IProduct {
-  id: number;
-  characteristic: string;
-  rating: number | null;
-  inStock: boolean;
-  price: number;
-  discription: string;
-  name: string;
-  count: number;
-  views: number;
-  isPreviouslyUsed: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  images?: IArticlePhoto[];
-  sale?: ISale | null;
-  categories?: ICategory[];
-}
+import { z } from "zod";
 
-export interface IArticlePhoto {
-  id: number;
-  name: string;
-  url: string;
-  createdAt: Date;
-  updatedAt: Date;
-  article?: IProduct;
-}
+export const ImageSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  url: z.string(),
+});
 
-export interface ICategory {
-  id: number;
-  name: string;
-  articles?: IProduct[];
-}
+export const SaleSchema = z.object({
+  id: z.number(),
+  newPrise: z.number(),
+  activeTill: z.coerce.date(),
+});
 
-export interface ISale {
-  id: number;
-  newPrise: number;
-  activeTill: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  article?: IProduct;
-}
+export const CategorySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+export const ProductSchema = z.object({
+  id: z.number(),
+  characteristic: z.string(),
+  rating: z.number().nullable(),
+  inStock: z.boolean(),
+  price: z.number(),
+  discription: z.string(),
+  name: z.string(),
+  views: z.number(),
+  isPreviouslyUsed: z.boolean(),
+  images: z.array(ImageSchema).optional(),
+  sale: SaleSchema.nullable().optional(),
+  categories: z.array(CategorySchema).optional(),
+});
 
-export interface IProductFilterOptions {
-  search: string;
-  category: string;
-  sortBy: string;
-  sortOrder: string;
-  page: number;
-  limit: number;
-}
+export interface IProduct extends z.infer<typeof ProductSchema> {}
+export interface IArticlePhoto extends z.infer<typeof ImageSchema> {}
+
+export interface ICategory extends z.infer<typeof CategorySchema> {}
+export interface ISale extends z.infer<typeof SaleSchema> {}
+
+export interface IProductFilterOptions
+  extends z.infer<typeof ProductFilterOptionsSchema> {}
+const FormOptionalInt = z
+  .string()
+  .transform((val) => (val === "undefined" ? undefined : parseInt(val)))
+  .optional();
+const FormOptionalString = z
+  .string()
+  .transform((val) => (val === "undefined" ? undefined : val))
+  .optional();
+export const ProductFilterOptionsSchema = z.object({
+  search: FormOptionalString,
+  category: FormOptionalString,
+  minPrice: FormOptionalInt,
+  maxPrice: FormOptionalInt,
+  sale: FormOptionalString,
+  stock: FormOptionalString,
+  starsCount: FormOptionalInt,
+  price: FormOptionalString,
+  rating: FormOptionalString,
+  page: FormOptionalInt,
+  limit: FormOptionalInt,
+});

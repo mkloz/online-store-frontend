@@ -4,6 +4,8 @@ import { CartIcon, LikeIcon, UserIcon } from "../../components/icons";
 import { ArrowRight, List, Settings } from "lucide-react";
 import Link from "next/link";
 import ProfileSidebar from "./_components/ProfileSidebar";
+import { ILayoutProps } from "../../types/nextjs";
+import UserApiService from "../../services/UserApiService";
 
 export const PROFILE_TABS = {
   profile: { name: "Profile", link: LINKS.PROFILE, icon: <UserIcon /> },
@@ -17,20 +19,17 @@ export const PROFILE_TABS = {
   settings: { name: "Settings", link: LINKS.SETTINGS, icon: <Settings /> },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: ILayoutProps) {
+  const user = await UserApiService.me();
+
   return (
     <div className="mx-[7%] my-12 flex w-full flex-row flex-wrap items-center justify-center gap-16">
       <Breadcrumbs className="w-full" />
       <div className="flex grow flex-col items-center justify-between gap-16 md:flex-row md:items-start">
-        <ProfileSidebar />
+        <ProfileSidebar user={user} />
         <div className="grow self-stretch">{children}</div>
       </div>
       <div className="flex w-full gap-4 text-gray">
-        <Link href={LINKS.ARCHIVE}>Orders archive</Link>
         <Link href={LINKS.CATALOG} className="ml-auto flex gap-2">
           Back to the catalog
           <ArrowRight />

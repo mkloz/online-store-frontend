@@ -19,6 +19,22 @@ export function Breadcrumbs({ ...props }: BreadcrumbsProps) {
     Object.values(PROFILE_TABS).find((tab) => tab.link === pathname) ||
     PROFILE_TABS.profile;
 
+  if (current.name === "Profile" || !current) {
+    return (
+      <Breadcrumb {...props}>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={LINKS.HOME}>Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Profile</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
+
   return (
     <Breadcrumb {...props}>
       <BreadcrumbList>
@@ -27,16 +43,12 @@ export function Breadcrumbs({ ...props }: BreadcrumbsProps) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={LINKS.CART}>Profile</BreadcrumbLink>
+          <BreadcrumbLink href={LINKS.PROFILE}>Profile</BreadcrumbLink>
         </BreadcrumbItem>
-        {current && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{current.name}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </>
-        )}
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{current.name}</BreadcrumbPage>
+        </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
   );
